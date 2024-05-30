@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 from tkinter import ttk
 
@@ -5,7 +6,7 @@ class Window:
     def __init__(self):
         self.__root = Tk()
         self.__root.title("Sorting Algorithms Visualizer")
-        self.__root.geometry("800x600")
+        self.__root.attributes('-zoomed', True)
         self.__root.resizable(False, False)
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
         self.__selected_algorithm = StringVar(value='Insertion Sort')
@@ -16,6 +17,7 @@ class Window:
         self.__stop_button = None
         self.__no_of_elements_scale = None
         self.__canvas = None
+        self.__bars = []
         self.__running = False
     
     def redraw(self):
@@ -70,15 +72,35 @@ class Window:
         self.__stop_button = Button(control_frame, text="Stop Sorting", command=self.__stop_sorting, state=DISABLED)
         self.__stop_button.grid(row=1, column=2, padx=10, pady=10, sticky=(N, W, E, S))
 
+    def __draw_bars(self):
+        self.__canvas.delete("all")
+        margin = 50
+        canvas_width = self.__canvas.winfo_width()
+        canvas_height = self.__canvas.winfo_height()
+        bar_width = (canvas_width - 2 * margin) // len(self.__bars)
+        current_x = margin
+        height_with_margin = canvas_height - 2 * margin
+        for bar in self.__bars:
+            x1 = current_x
+            y1 = height_with_margin - height_with_margin * (bar / 100) + margin
+            x2 = x1 + bar_width
+            y2 = canvas_height - margin
+            self.__canvas.create_rectangle(current_x, y1, x2, y2, fill="white")
+            current_x = x2
+
     def __start_sorting(self):
         print(f"Starting {self.__selected_algorithm.get()}... {self.__no_of_elements.get()}") 
         self.__is_sorting_active.set(True)
+        self.__bars = [random.randint(1, 100) for _ in range(self.__no_of_elements.get())]
+        self.__draw_bars()
+        self.__start_button.config(state=DISABLED)
         self.__stop_button.config(state=NORMAL)
         self.__no_of_elements_scale.config(state=DISABLED)
 
     def __stop_sorting(self):
         print("Sorting stopped.")
         self.__is_sorting_active.set(False)
+        self.__start_button.config(state=NORMAL)
         self.__stop_button.config(state=DISABLED)
         self.__no_of_elements_scale.config(state=NORMAL)
 
@@ -90,7 +112,7 @@ class Window:
         diagram_frame.grid_columnconfigure(0, weight=1) 
         diagram_frame.grid_rowconfigure(0, weight=1)
 
-        self.__canvas = Canvas(diagram_frame, background="black", width=730, height=170)
+        self.__canvas = Canvas(diagram_frame, background="black")
         self.__canvas.grid(row=0, column=0, sticky=(N, W, E, S))
 
     def setup_ui(self):
