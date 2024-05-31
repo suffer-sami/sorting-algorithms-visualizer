@@ -27,7 +27,8 @@ class Window:
         self.__fill_colors = {
             State.UNSORTED: "white",
             State.BEING_SORTED: "SkyBlue3",
-            State.SORTED: "spring green"
+            State.SORTED: "spring green",
+            State.PIVOT: "dark violet"
         }
         self.sorter = Sorter(self)
     
@@ -118,6 +119,8 @@ class Window:
                 self.sorter.bubble_sort(self.__bars)
             elif selected_algorithm == "Selection Sort":
                 self.sorter.selection_sort(self.__bars)
+            elif selected_algorithm == "Quick Sort":
+                self.sorter.quick_sort(self.__bars, 0, len(self.__bars) - 1)
             elif selected_algorithm == "Insertion Sort":
                 self.sorter.insertion_sort(self.__bars)
         else:

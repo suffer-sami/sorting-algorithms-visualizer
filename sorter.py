@@ -54,6 +54,47 @@ class Sorter:
 
             self._animate()
 
+    def quick_sort(self, bars, low, high):
+        if low < high:
+            pivot = self.__partition(bars, low, high)
+            self.quick_sort(bars, low, pivot - 1)
+            self.quick_sort(bars, pivot + 1, high)
+
+            if low == 0 and high == len(bars) - 1:
+                for bar in bars:
+                    bar.state = State.SORTED
+                self._animate()
+
+    def __partition(self, bars, low, high):
+        pivot = bars[high]
+        pivot.state = State.PIVOT
+        self._animate()
+        i = low - 1
+
+        for j in range(low, high):
+            bars[j].state = State.BEING_SORTED
+            self._animate()
+
+            if bars[j] <= pivot:
+                i = i + 1
+                if i != j:
+                    bars[i], bars[j] = bars[j], bars[i]
+                    self._animate()
+
+                bars[i].state = State.UNSORTED
+                self._animate()
+
+            bars[j].state = State.UNSORTED
+            self._animate()
+
+        bars[i + 1], bars[high] = bars[high], bars[i + 1]
+        self._animate()
+        
+        pivot.state = State.UNSORTED
+        bars[i + 1].state = State.SORTED
+        self._animate()
+
+        return i + 1
 
     def insertion_sort(self, bars):
         for step in range(1, len(bars)):
