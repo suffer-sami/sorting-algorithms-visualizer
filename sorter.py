@@ -95,6 +95,58 @@ class Sorter:
         self._animate()
 
         return i + 1
+        
+    def merge_sort(self, bars):
+        self.__merge_sort_recursive(bars, 0, len(bars) - 1)
+
+        for bar in bars:
+            bar.state = State.SORTED
+        self._animate()
+
+    def __merge_sort_recursive(self, bars, left, right):
+        if left < right:
+            mid = (left + right) // 2
+            self.__merge_sort_recursive(bars, left, mid)
+            self.__merge_sort_recursive(bars, mid + 1, right)
+            self.__merge(bars, left, mid, right)
+
+    def __merge(self, bars, left, mid, right):
+        left_copy = bars[left:mid + 1]
+        right_copy = bars[mid + 1:right + 1]
+
+        left_copy_index = 0
+        right_copy_index = 0
+        sorted_index = left
+
+        while left_copy_index < len(left_copy) and right_copy_index < len(right_copy):
+            bars[left + left_copy_index].state = State.BEING_SORTED
+            bars[mid + 1 + right_copy_index].state = State.BEING_SORTED
+            self._animate()
+
+            if left_copy[left_copy_index] <= right_copy[right_copy_index]:
+                bars[sorted_index] = left_copy[left_copy_index]
+                left_copy_index += 1
+            else:
+                bars[sorted_index] = right_copy[right_copy_index]
+                right_copy_index += 1
+
+            bars[sorted_index].state = State.UNSORTED
+            sorted_index += 1
+            self._animate()
+
+        while left_copy_index < len(left_copy):
+            bars[sorted_index] = left_copy[left_copy_index]
+            bars[sorted_index].state = State.UNSORTED
+            left_copy_index += 1
+            sorted_index += 1
+            self._animate()
+
+        while right_copy_index < len(right_copy):
+            bars[sorted_index] = right_copy[right_copy_index]
+            bars[sorted_index].state = State.UNSORTED
+            right_copy_index += 1
+            sorted_index += 1
+            self._animate()
 
     def insertion_sort(self, bars):
         for step in range(1, len(bars)):

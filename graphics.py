@@ -101,7 +101,6 @@ class Window:
             current_x = x2
 
     def __start_sorting(self):
-        print(f"Starting {self.__selected_algorithm.get()}... {self.__no_of_elements.get()}") 
         self.is_sorting_active.set(True)
         self.__bars = [Bar(i) for i in range(1, 100, 100 // self.__no_of_elements.get())]
         random.shuffle(self.__bars)
@@ -121,6 +120,8 @@ class Window:
                 self.sorter.selection_sort(self.__bars)
             elif selected_algorithm == "Quick Sort":
                 self.sorter.quick_sort(self.__bars, 0, len(self.__bars) - 1)
+            elif selected_algorithm == "Merge Sort":
+                self.sorter.merge_sort(self.__bars)
             elif selected_algorithm == "Insertion Sort":
                 self.sorter.insertion_sort(self.__bars)
         else:
@@ -132,7 +133,6 @@ class Window:
         messagebox.showinfo("Message",  message)
 
     def __stop_sorting(self):
-        print("Sorting stopped.")
         self.is_sorting_active.set(False)
         self.__start_button.config(state=NORMAL)
         self.__stop_button.config(state=DISABLED)
