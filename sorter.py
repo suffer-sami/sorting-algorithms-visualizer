@@ -54,16 +54,18 @@ class Sorter:
 
             self._animate()
 
-    def quick_sort(self, bars, low, high):
+    def quick_sort(self, bars):
+        self.__quick_sort_recursive(bars, 0, len(bars) - 1)
+
+        for bar in bars:
+            bar.state = State.SORTED
+        self._animate()
+
+    def __quick_sort_recursive(self, bars, low, high):
         if low < high:
             pivot = self.__partition(bars, low, high)
-            self.quick_sort(bars, low, pivot - 1)
-            self.quick_sort(bars, pivot + 1, high)
-
-            if low == 0 and high == len(bars) - 1:
-                for bar in bars:
-                    bar.state = State.SORTED
-                self._animate()
+            self.__quick_sort_recursive(bars, low, pivot - 1)
+            self.__quick_sort_recursive(bars, pivot + 1, high)
 
     def __partition(self, bars, low, high):
         pivot = bars[high]

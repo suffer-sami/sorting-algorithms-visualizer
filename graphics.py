@@ -119,7 +119,7 @@ class Window:
             elif selected_algorithm == "Selection Sort":
                 self.sorter.selection_sort(self.__bars)
             elif selected_algorithm == "Quick Sort":
-                self.sorter.quick_sort(self.__bars, 0, len(self.__bars) - 1)
+                self.sorter.quick_sort(self.__bars)
             elif selected_algorithm == "Merge Sort":
                 self.sorter.merge_sort(self.__bars)
             elif selected_algorithm == "Insertion Sort":
