@@ -7,9 +7,9 @@ class State(Enum):
     PIVOT = 4
 
 class Bar:
-    def __init__(self, val):
+    def __init__(self, val, state=State.UNSORTED):
         self.val = val 
-        self.state = State.UNSORTED
+        self.state = state
 
     def __gt__(self, other):
         return self.val > other.val
