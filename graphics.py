@@ -1,5 +1,4 @@
 import random
-import time
 from tkinter import *
 from tkinter import ttk, messagebox
 from bars import State, Bar
@@ -100,14 +99,17 @@ class Window:
             self.__canvas.create_rectangle(current_x, y1, x2, y2, fill=self.__fill_colors[bar.state])
             current_x = x2
 
-    def __start_sorting(self):
-        self.is_sorting_active.set(True)
+    def __setup_bars(self):
         self.__bars = [Bar(i) for i in range(1, 100, 100 // self.__no_of_elements.get())]
         random.shuffle(self.__bars)
         self.draw_bars()
+
+    def __start_sorting(self):
+        self.is_sorting_active.set(True)
         self.__start_button.config(state=DISABLED)
         self.__stop_button.config(state=NORMAL)
         self.__no_of_elements_scale.config(state=DISABLED)
+        self.__setup_bars()
         self.__sort_bars()
 
     def __sort_bars(self):
