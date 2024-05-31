@@ -15,7 +15,7 @@ class Window:
         self.__root.bind("<Configure>", self.draw_bars)
         self.__algorithm_list =  ['Bubble Sort', 'Selection Sort', 'Quick Sort', 'Merge Sort', 'Insertion Sort']
         self.__selected_algorithm = StringVar(value='Bubble Sort')
-        self.__no_of_elements = IntVar(value=10)
+        self.__no_of_elements = IntVar(value=30)
         self._speed = IntVar(value=1)
         self.is_sorting_active = BooleanVar(value=False)
         self.__start_button = None
@@ -116,6 +116,10 @@ class Window:
         if selected_algorithm in self.__algorithm_list:
             if selected_algorithm == "Bubble Sort":
                 self.sorter.bubble_sort(self.__bars)
+            elif selected_algorithm == "Selection Sort":
+                self.sorter.selection_sort(self.__bars)
+            elif selected_algorithm == "Insertion Sort":
+                self.sorter.insertion_sort(self.__bars)
         else:
             self.__show_message("Please select valid sorting algorithm")
 

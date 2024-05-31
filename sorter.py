@@ -29,3 +29,52 @@ class Sorter:
 
         bars[0].state = State.SORTED
         self._animate()
+
+    def selection_sort(self, bars):
+        for step in range(len(bars)):
+            min_idx = step
+            bars[min_idx].state = State.BEING_SORTED
+            self._animate()
+
+            for i in range(step + 1, len(bars)):
+                bars[i].state = State.BEING_SORTED
+                self._animate()
+
+                if bars[i] < bars[min_idx]:
+                    bars[min_idx].state = State.UNSORTED
+                    min_idx = i
+                    bars[min_idx].state = State.BEING_SORTED
+
+                bars[i].state = State.UNSORTED
+                self._animate()
+
+            bars[step], bars[min_idx] = bars[min_idx], bars[step]
+            bars[min_idx].state = State.UNSORTED
+            bars[step].state = State.SORTED
+
+            self._animate()
+
+
+    def insertion_sort(self, bars):
+        for step in range(1, len(bars)):
+            key = bars[step]
+            key.state = State.BEING_SORTED
+            self._animate()
+
+            j = step - 1
+                    
+            while j >= 0 and key < bars[j]:
+                bars[j].state = State.BEING_SORTED
+                bars[j + 1] = bars[j]
+                self._animate()
+
+                bars[j].state = State.UNSORTED
+                j = j - 1
+            
+            bars[j + 1] = key
+            key.state = State.UNSORTED
+            self._animate()
+
+        for bar in bars:
+            bar.state = State.SORTED
+        self._animate()
